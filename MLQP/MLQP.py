@@ -33,7 +33,11 @@ class MLQP():
 			# the MSE of output 
 			if error_total < 0.01:
 				print("Iteration times: {}".format(itr))
-				break
+				return itr
+			if itr%1000==0:
+				print(itr)
+			if itr>10000:
+				return itr
 
 	def update_online(self, training_data, eta):
 		error_total = 0
@@ -65,6 +69,10 @@ class MLQP():
 			if error_total/num_data < 0.01:
 				print("Iteration times: {}".format(itr))
 				break
+			if itr%1000==0:
+				print(itr)
+			if itr>10000:
+				return itr
 
 	def update_mini_batch(self, mini_batch, eta):
 		nabla_u = [np.zeros(u.shape) for u in self.u]
@@ -123,8 +131,7 @@ class MLQP():
 		num_success = sum(int(x==y) for (x,y) in test_results)
 		print("correct/total: {}/{} ({:.2f}%)".format(num_success,\
 			len(test_data),float(num_success)/len(test_data)*100))
-		return [(arraylize(x),scalarize(self.feedforward(x))) \
-				for x,y in test_data]
+		return float(num_success)/len(test_data)*100
 	
 	def plot(self):
 		"""Draw the class distribution"""
