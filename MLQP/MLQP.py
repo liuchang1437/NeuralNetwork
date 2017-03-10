@@ -1,5 +1,6 @@
 import random
 import numpy as np
+import matplotlib.pyplot as plt
 
 class MLQP():
 	""" It's similar with a tradition backprop algoritm, except that
@@ -122,6 +123,26 @@ class MLQP():
 		num_success = sum(int(x==y) for (x,y) in test_results)
 		print("correct/total: {}/{} ({:.2f}%)".format(num_success,\
 			len(test_data),float(num_success)/len(test_data)*100))
+		return [(arraylize(x),scalarize(self.feedforward(x))) \
+				for x,y in test_data]
+	
+	def plot(self):
+		"""Draw the class distribution"""
+		x_axis = np.arange(-3.,3.,0.01)
+		y_axis = np.arange(-3.,3.,0.01)
+		data = []
+		for x in x_axis:
+			for y in y_axis:
+				data.append(np.array([x,y]).reshape(2,1))
+		data = [ (arraylize(inpt),scalarize(self.feedforward(inpt))) \
+				for inpt in data]
+		x0 = [in1 for (in1,in2),out in data if out==0]
+		y0 = [in2 for (in1,in2),out in data if out==0]
+		x1 = [in1 for (in1,in2),out in data if out==1]
+		y1 = [in2 for (in1,in2),out in data if out==1]
+		plt.plot(x0,y0,'co',x1,y1,'mo')
+		plt.axis('equal')
+		plt.show()
 
 # utils
 def sigmoid(z):
@@ -130,3 +151,5 @@ def sigmoid_prime(z):
 	return sigmoid(z)*(1-sigmoid(z))
 def scalarize(y):
 	return np.argmax(y)
+def arraylize(x):
+	return [a for a in x.flat]

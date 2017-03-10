@@ -7,7 +7,8 @@ def main():
 	net = MLQP.MLQP([2,10,2])
 	#net.SGD_batch(training_data, 10, 0.8) # (., epochs, batch size, learning rate)
 	net.SGD_online(training_data, 0.8) # (., epochs, batch size, learning rate)
-	net.evaluate(test_data)
+	result = net.evaluate(test_data)
+	net.plot()
 
 if __name__ == '__main__':
 	main()
