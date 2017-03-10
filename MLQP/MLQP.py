@@ -68,7 +68,7 @@ class MLQP():
 			# the MSE of output 
 			if error_total/num_data < 0.01:
 				print("Iteration times: {}".format(itr))
-				break
+				return itr
 			if itr%1000==0:
 				print(itr)
 			if itr>10000:
