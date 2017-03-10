@@ -22,6 +22,7 @@ class MLQP():
 
 	def SGD_online(self, training_data, eta):
 		""" on-line mode, update weights every single input."""
+		print("Execute in on-line mode..")
 		itr = 0
 		while True:
 			itr = itr+1
@@ -45,10 +46,13 @@ class MLQP():
 
 		return error_total/len(training_data)
 
-	def SGD_batch(self, training_data, epochs, mini_batch_size, eta):
+	def SGD_batch(self, training_data, mini_batch_size, eta):
 		""" batch mode, update weights every epoch."""
+		print("Execute in batch mode..")
 		num_data = len(training_data)
-		for itr in xrange(epochs):
+		itr = 0
+		while True:
+			itr = itr + 1
 			random.shuffle(training_data)
 			mini_batches = [ training_data[k:k+mini_batch_size] \
 							for k in xrange(0,num_data,mini_batch_size)]
