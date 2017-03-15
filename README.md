@@ -37,3 +37,7 @@ test_performance(training_data, test_data,1.0,1.5,0.05)
 + Run it simply by `python network.py`
 + When test the performance of different learning rate, it executes 10 times each eta. And it will calculate the average value (not include the max and min ones).
 
+
+## MIN-MAX
+
+For each classes, the program randomly split it into two samples of the same size, say they are *t11, t12, t01 and t02.* By merging them together, we get $4$ new sub-training sets: *t11 + t01, t11 + t02, t12 + t01, t12 + t02*. For each sub-training sets, we use it to train a MLQP network. By using MIN-MAX rules, we can get the final results. 

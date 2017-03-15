@@ -136,7 +136,7 @@ class MLQP():
 	def evaluate_single(self, x):
 		return scalarize(self.feedforward(x))
 	
-	def plot(self):
+	def plot(self,filename):
 		"""Draw the class distribution"""
 		x_axis = np.arange(-3.,3.,0.01)
 		y_axis = np.arange(-3.,3.,0.01)
@@ -162,7 +162,8 @@ class MLQP():
 		plt.plot(x0,y0,'co',label='class1')
 		plt.plot(x1,y1,'mo',label='class2')
 		plt.axis('equal')
-		plt.show()
+		plt.savefig('{}.png'.format(filename))
+		# plt.show()
 
 # utils
 def sigmoid(z):

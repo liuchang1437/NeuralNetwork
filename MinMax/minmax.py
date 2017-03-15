@@ -10,15 +10,16 @@ from MLQP import MLQP
 
 def main():
 	###############  random loader, plot classes distribution ############
-	# training_data, test_data = random_loader.load_data()
-	# net = min_max([2,10,2],0.8)
-	# print(net.learning(training_data))
-	# net.evaluate(test_data)
-	# net.plot()
+	training_data, test_data = loader.random_load_data()
+	net = min_max([2,10,2],0.8)
+	print(net.learning(training_data))
+	net.evaluate(test_data)
+	net.plot("min_max")
 
 	###############  random loader, evaluate performance ############
-	training_data, test_data = loader.random_load_data()
-	test_performance(training_data, test_data, 0.1, 1.2, 0.05)
+	# training_data, test_data = loader.random_load_data()
+	# test_performance(training_data, test_data, 0.1, 1.2, 0.05)
+
 
 class min_max():
 	def __init__(self, sizes, eta):
@@ -64,7 +65,7 @@ class min_max():
 			len(test_data),float(num_success)/len(test_data)*100))
 		return float(num_success)/len(test_data)*100
 
-	def plot(self):
+	def plot(self,filename):
 		"""Draw the class distribution"""
 		x_axis = np.arange(-3.,3.,0.01)
 		y_axis = np.arange(-3.,3.,0.01)
@@ -90,7 +91,12 @@ class min_max():
 		plt.plot(x0,y0,'co',label='class1')
 		plt.plot(x1,y1,'mo',label='class2')
 		plt.axis('equal')
-		plt.show()
+		plt.savefig('{}.png'.format(filename))
+		self.net01.plot("net01")
+		self.net02.plot("net02")
+		self.net11.plot("net11")
+		self.net12.plot("net12")
+		# plt.show()
 
 def test_performance(training_data,test_data,low,high,interval):
 	results = []
