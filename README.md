@@ -1,8 +1,19 @@
 # Neural Network
+## Perceptron
+
++ It's implement a Perceptron. The learning rate is :
+  + $$\bm{W}^{new} = \bm{W}^{old} + \alpha \bm{e}\bm{p}^T$$
+  + $$\bm{b}^{new} = \bm{b}^{old} + \alpha \bm{e}\b$$
++ The program could draw the classes distribution after finishing the learning.
++ The program can also learning at different learning rates to compare within them.
++ Run it simply by `python perceptron.py`
+
 ## Multilayer Quadratic Perceptron
 
 + It's an implementation of **MLQP**. The activation function is
   + $$y_i = sigmoid(\sum_i (u_{ji}y_i^2+v_{ji}y_i) +b_j)$$
++ The program could draw the classes distribution after finishing the learning.
++ The program can also learning at different learning rates to compare within them.
 
 
 ### Running options

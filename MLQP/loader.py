@@ -3,8 +3,8 @@ import numpy as np
 def load_data():
     training_data = []
     test_data = []
-    train_txt = open("two_spiral_train.txt", "r")
-    test_txt = open("two_spiral_test.txt", "r")
+    train_txt = open("../data/two_spiral_train.txt", "r")
+    test_txt = open("../data/two_spiral_test.txt", "r")
     # the training_data is in the format as bellow: 
     # ([x1,
     #  x2],[y1.

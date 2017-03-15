@@ -132,6 +132,9 @@ class MLQP():
 		print("correct/total: {}/{} ({:.2f}%)".format(num_success,\
 			len(test_data),float(num_success)/len(test_data)*100))
 		return float(num_success)/len(test_data)*100
+
+	def evaluate_single(self, x):
+		return scalarize(self.feedforward(x))
 	
 	def plot(self):
 		"""Draw the class distribution"""
@@ -147,7 +150,17 @@ class MLQP():
 		y0 = [in2 for (in1,in2),out in data if out==0]
 		x1 = [in1 for (in1,in2),out in data if out==1]
 		y1 = [in2 for (in1,in2),out in data if out==1]
-		plt.plot(x0,y0,'co',x1,y1,'mo')
+		ax = plt.gca()
+		ax.spines['right'].set_color('none')
+		ax.spines['top'].set_color('none')
+		ax.xaxis.set_ticks_position('bottom')
+		ax.spines['bottom'].set_position(('data',0))
+		ax.yaxis.set_ticks_position('left')
+		ax.spines['left'].set_position(('data',0))
+		plt.xlabel('x1')
+		plt.ylabel('x2')
+		plt.plot(x0,y0,'co',label='class1')
+		plt.plot(x1,y1,'mo',label='class2')
 		plt.axis('equal')
 		plt.show()
 

@@ -84,20 +84,23 @@ def main():
 	trainging_data = [([1,1],[1,0,0]),([0,2],[1,0,0]),([3,1],[1,0,0]),\
 		([2,-1],[0,1,0]),([2,0],[0,1,0]),([1,-2],[0,1,0]),\
 		([-1,2],[0,0,1]),([-2,1],[0,0,1]),([-1,1],[0,0,1]),]
-	xs = []
-	ys = []
-	for i in np.arange(0.01,1.01,0.01):
-		result = []
-		for j in range(20):
-			pcptrn = Perceptron()
-			pcptrn.load_data(trainging_data)
-			result.append(pcptrn.learning(i))
-		print("{}:\t{}".format(i, max(result)))
-		xs.append(i)
-		ys.append(max(result))
-	plot(xs,ys)
+	# xs = []
+	# ys = []
+	# for i in np.arange(0.01,1.01,0.01):
+	# 	result = []
+	# 	for j in range(20):
+	# 		pcptrn = Perceptron()
+	# 		pcptrn.load_data(trainging_data)
+	# 		result.append(pcptrn.learning(i))
+	# 	print("{}:\t{}".format(i, max(result)))
+	# 	xs.append(i)
+	# 	ys.append(max(result))
+	# plot(xs,ys)
 	
-	#pcptrn.plot()
+	pcptrn = Perceptron()
+	pcptrn.load_data(trainging_data)
+	itr = pcptrn.learning(0.8)
+	pcptrn.plot()
 if __name__ == '__main__':
 	main()
 
