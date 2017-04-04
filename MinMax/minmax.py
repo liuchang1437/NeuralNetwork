@@ -2,6 +2,7 @@ import loader
 import numpy as np
 import matplotlib.pyplot as plt
 import random
+import time
 
 #from concurrent.futures import ThreadPoolExecutor
 import sys
@@ -10,15 +11,28 @@ from MLQP import MLQP
 
 def main():
 	###############  random loader, plot classes distribution ############
-	training_data, test_data = loader.random_load_data()
-	net = min_max([2,10,2],0.8)
-	print(net.learning(training_data))
-	net.evaluate(test_data)
-	net.plot("min_max")
+	# training_data, test_data = loader.random_load_data()
+	# net = min_max([2,10,2],0.8)
+	# print(net.learning(training_data))
+	# net.evaluate(test_data)
+	# net.plot("min_max")
 
-	###############  random loader, evaluate performance ############
+	# ###############  random loader, evaluate performance ############
 	# training_data, test_data = loader.random_load_data()
 	# test_performance(training_data, test_data, 0.1, 1.2, 0.05)
+
+	# =========== test time ======================
+	training_data, test_data = loader.random_load_data()
+	result = []
+	itrs = []
+	for i in range(100):
+		net = min_max([2,10,2],0.8)
+		itr,tt = net.learning(training_data) # (., epochs, batch size, learning rate)
+		result.append(tt)
+		itrs.append(itr)
+		#net.evaluate(test_data)
+	print("Total time: {:.2f}".format(sum(result)/100))
+	print("Iteration: {:.2f}".format(sum(itrs)/100))
 
 
 class min_max():
@@ -34,12 +48,33 @@ class min_max():
 		self.eta = eta
 
 	def learning(self,training_data):
-		itr11 = self.net11.SGD_online(training_data[0], self.eta)
-		itr12 = self.net12.SGD_online(training_data[1], self.eta)
-		itr01 = self.net01.SGD_online(training_data[2], self.eta)
-		itr02 = self.net02.SGD_online(training_data[3], self.eta)
+		train_time = []
+		itrs = []
 
-		return max(itr11,itr12,itr01,itr02)
+		begin = time.clock()
+		itrs.append(self.net11.SGD_online(training_data[0], self.eta))
+		end = time.clock()
+		train_time.append(end - begin)
+
+		begin = time.clock()
+		itrs.append(self.net12.SGD_online(training_data[1], self.eta))
+		end = time.clock()
+		train_time.append(end - begin)
+
+		begin = time.clock()
+		itrs.append(self.net01.SGD_online(training_data[2], self.eta))
+		end = time.clock()
+		train_time.append(end - begin)
+
+		begin = time.clock()
+		itrs.append(self.net02.SGD_online(training_data[3], self.eta))
+		end = time.clock()
+		train_time.append(end - begin)
+		avg_time = (sum(train_time)-max(train_time)-min(train_time)) / 2
+		avg_itr = (sum(itrs)-max(itrs)-min(itrs)) / 2
+		print("Training time: {:.2f} s".format(avg_time))
+
+		return avg_itr,avg_time
 	
 	def MIN(self,x1,x2):
 		if x1==1 and x2==1:
@@ -107,12 +142,12 @@ def test_performance(training_data,test_data,low,high,interval):
 		itr = []
 		rate = []
 		print("========== {} ==========".format(eta))
-		for i in range(10):
+		for i in range(3):
 			net = min_max([2,10,2],eta)
 			itr.append(net.learning(training_data))
 			rate.append(net.evaluate(test_data))
-		itr_avg = float(sum(itr)-max(itr)-min(itr))/8
-		rate_avg = (sum(rate)-max(rate)-min(rate))/8
+		itr_avg = float(sum(itr)-max(itr)-min(itr))
+		rate_avg = (sum(rate)-max(rate)-min(rate))
 		itrs.append(itr_avg)
 		etas.append(eta)
 		rates.append(rate_avg)
