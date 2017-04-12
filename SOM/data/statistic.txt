@@ -1,0 +1,2 @@
+minimal	maximal	num
+-3.0461438	6.3343691	600
